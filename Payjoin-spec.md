@@ -92,7 +92,7 @@ Not only would those transactions would stand out by not having a round fee (lik
 ### Receiver does not need to be a full node
 Because the receiver needs to bump the fee to keep the same fee rate as the original PSBT, it needs the input's UTXO information to know what is the original fee rate. Without PSBT, light wallets like Wasabi Wallet would not be able to receive a payjoin transaction.
 
-The validation (policy and consensus) of the original transaction is optional: a receiver without a full node can decide to create the payjoin transaction and automatically broadcast the original transaction after a timeout of 1 minute, and only verifying that it has been propagated in the network.
+The validation (policy and consensus) of the original transaction is optional: a receiver without a full node can decide to create the payjoin transaction and automatically broadcast the original transaction after a timeout of 2 minutes, and only verifying that it has been propagated in the network.
 
 However, automated systems (like BTCPay Server) need to verify the transaction to prevent UTXO probing attacks. 
 
@@ -120,7 +120,7 @@ Then the original PSBT is deemed valid, however, other checks are done which dep
 * Check that the receiver has available UTXO to contribute to the payjoin (Fails with error `out-of-utxos`, the receiver will broadcast the original transaction)
 * Check that the receiver can actually sign (Fails with error `unavailable`)
 
-From this point, the receiver will automatically try to broadcast the original transaction after 1 minute, whatever happens.
+From this point, the receiver will automatically try to broadcast the original transaction after 2 minutes, whatever happens.
 Then, we proceed to create the payjoin transaction by cloning the original transaction:
 * If there is only one output, we add a second output [*](#spare-change)
 * We include some of the receiver's inputs
@@ -141,7 +141,7 @@ We then send the payjoin transaction proposal back to the sender.
 
 ### Sender side <a name="sender"></a>
 
-Before sending the original PSBT to the receiver, the sender should make sure that the original PSBT is at least attempted to be broadcasted automatically after 1 minute of submission.
+Before sending the original PSBT to the receiver, the sender should make sure that the original PSBT is at least attempted to be broadcasted automatically after 2 minutes of submission.
 
 The sender then follows the steps:
 
